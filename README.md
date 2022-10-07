@@ -1,3 +1,3 @@
-# Full Focus Contract (FFC)
+# Full Focus Contract
 
-A contract that has helped me focus. You can view or sign it [here](https://danny-dirksen.github.io/full-focus-contract/).
+A contract that I sign when I want to focus on a task. You can view or sign it [here](https://danny-dirksen.github.io/full-focus-contract/).
