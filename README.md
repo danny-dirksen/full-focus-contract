@@ -1,7 +1,3 @@
 # Full Focus Contract (FFC)
 
-A legal contract to help you focus.
-
-The contract can be accessed and signed here:
-
-[https://github.com/danny-dirksen/full-focus-contract](https://github.com/danny-dirksen/full-focus-contract)
+A contract that has helped me focus. You can view or sign it [here](https://github.com/danny-dirksen/full-focus-contract).
