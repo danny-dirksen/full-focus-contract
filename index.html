@@ -1,0 +1,140 @@
+<html>
+<head>
+  <title>Full Focus Contract</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      height: 100vh;
+      font-size: 12pt;
+      line-height: 2;
+
+    }
+
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    .screen {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.2s ease-out, transform 0.2s;
+    }
+
+    .card {
+      max-width: 30em;
+      height: fit-content;
+      border: 1px solid white;
+      padding: 1em 2em;
+      border-radius: 1em;
+      max-height: 100%;
+      box-sizing: border-box;
+      overflow: scroll;
+    }
+
+    .hide {
+      opacity: 0;
+      transform: translateY(-2em);
+      z-index: -1;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-size: 2em;
+      line-height: 1;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    button {
+      margin: 0 auto;
+      background: inherit;
+      font-size: inherit;
+      font-family: inherit;
+      color: inherit;
+      border: none;
+      outline: 1px solid white;
+      border-radius: 0.5em;
+      padding: 0.5em 1em;
+      box-sizing: content-box;
+      cursor: pointer;
+    }
+
+    button:hover {
+      /* border: 1px solid white; */
+      outline-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="terms" class="screen">
+    <div class="card">
+      <h1>Full Focus Contract</h1>
+      <p>By signing this form, I agree that for the entire time allotted to this task, I will</p>
+      <ol>
+        <li>surrender and dedicate my time exclusively toward completing this task,</li>
+        <li>immediately terminate any disruptive activities or trains of thought that may arise, and</li>
+        <li>make full use of whatever task-relevant knowledge and skill I posess.</li>
+      </ol>
+      <p>This agreement is effective for the entire period allotted except during intentional breaks.</p>
+      <div style="text-align: center;">
+        <button id="agree">I Agree</button>
+      </div>
+    </div>
+  </div>
+  <div id="confirmation" class="screen hide">
+    <div style="text-align: center;">
+      <style>
+        .checkmark__check {
+          stroke:white;
+          transform-origin: 50% 50%;
+          stroke-dasharray: 48;
+          stroke-dashoffset: 48;
+          animation: stroke .5s .3s forwards;
+        }
+        
+        @keyframes stroke {
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+      </style>
+      <div id="check" style="width: 2.5em; display: inline-block;"></div>
+      <h1>Signed.</h1>
+      <button id="back">Back</button>
+    </div>
+  </div>
+  <script>
+
+    let terms = document.getElementById("terms");
+    let confirmation = document.getElementById("confirmation");
+    let check = document.getElementById("check");
+    let checkStr = `<svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="10 10 30 30"><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>`;
+
+    document.getElementById("agree").onclick = function (evt) {
+      terms.className = "screen hide";
+      setTimeout(() => {
+        confirmation.className = "screen";
+        check.innerHTML = checkStr;
+      }, 500)
+    }
+    document.getElementById("back").onclick = function (evt) {
+      confirmation.className = "screen hide";
+      setTimeout(() => {
+        terms.className = "screen";
+        check.innerHTML = "";
+      }, 500)
+    }
+  </script>
+</body>
+</html>
