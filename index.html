@@ -4,14 +4,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
   <style>
+    :root {
+      --soft: rgb(133, 133, 133);
+      --bg: rgb(255, 255, 255);
+      --text: rgb(10,10,10);
+    }
+
     html {
-      background: black;
-      color: white;
+      color: var(--text);
       font-family: sans-serif;
       height: 100vh;
       font-size: 12pt;
-      line-height: 2;
-
+      line-height: 1.8;
     }
 
     body {
@@ -28,76 +32,141 @@
       justify-content: center;
       opacity: 1;
       transition: opacity 0.2s ease-out, transform 0.2s;
+      flex-direction: column;
     }
 
     .card {
-      max-width: 30em;
-      height: fit-content;
-      border: 1px solid white;
-      padding: 1em 2em;
-      border-radius: 1em;
-      max-height: 100%;
+      background: var(--bg);
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+      border: 1px solid var(--soft);
+      padding-bottom: 4rem;
+      /* border-radius: 1em; */
       box-sizing: border-box;
       overflow: scroll;
+      max-width: 34rem;
+      aspect-ratio: 8.5/11;
+      display: flex;
+      flex-direction: column;
     }
 
     .hide {
       opacity: 0;
-      transform: translateY(-2em);
+      transform: translateY(-2rem);
       z-index: -1;
+    }
+
+    footer {
+      margin-top: 1rem;
+      margin-right: 4rem;
+      margin-left: 4rem;
+      text-align: right;
+    }
+
+    header {
+      color: var(--soft);
+      font-size: small;
+      height: 4rem;
+      padding: 1rem;
+      box-sizing: border-box;
+      text-align: right;
+      line-height: 1;
+    }
+
+    article {
+      padding: 0em 4em;
+      flex: 1;
     }
 
     h1 {
       font-weight: normal;
-      font-size: 2em;
+      font-size: 2rem;
       line-height: 1;
+      /* margin-top: 0; */
+    }
+
+    li {
+      margin-block: 1rem;
     }
 
     label {
       cursor: pointer;
     }
 
-    button {
-      margin: 0 auto;
+    button, input{
+      margin: 0;
       background: inherit;
       font-size: inherit;
       font-family: inherit;
       color: inherit;
       border: none;
-      outline: 1px solid white;
-      border-radius: 0.5em;
-      padding: 0.5em 1em;
+      outline: 1px solid var(--soft);
+      padding: 0.5rem 1rem;
       box-sizing: content-box;
-      cursor: pointer;
     }
 
-    button:hover {
-      /* border: 1px solid white; */
+    input {
+      margin-right: 1rem;
+    }
+
+    button:hover, button:focus-visible, input:focus-visible {
       outline-width: 2px;
+    }
+
+    #date-signed {
+      color: var(--soft);
+    }
+
+    @media (max-width: 500px), ( max-height: 650px) {
+      html {
+        /* font-size: 10pt; */
+      }
+      .screen {
+        align-items: stretch;
+      }
+      .card {
+        max-width: unset;
+        height: fit-content;
+        aspect-ratio: unset;
+        border: none;
+        box-shadow: none;
+      }
+      article {
+        padding: 2rem 2rem;
+      }
+      footer {
+        margin: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div id="terms" class="screen">
     <div class="card">
-      <h1>Full Focus Contract</h1>
-      <p>By clicking the button labeled "I Agree," I agree that for the entire time allotted to this task, I will</p>
-      <ol>
-        <li>surrender and dedicate my time exclusively toward completing this task,</li>
-        <li>immediately terminate any disruptive activities or trains of thought that arise during the completion of this task, and</li>
-        <li>make full use of whatever task-relevant knowledge and skill I posess toward completing this task.</li>
-      </ol>
-      <p>This agreement is effective for the entire period allotted except during intentional breaks.</p>
-      <div style="text-align: center;">
+      <header id="date">
+      </header>
+      <article>
+        <h1>Full-Focus Contract</h1>
+        <p>
+          By clicking "I Agree," you promise, to the full extent of your ability and for the full duration of time you have allotted to this task, to do the following.
+        </p>
+        <ol>
+          <li>You will surrender and dedicate your time exclusively toward completing this task.</li>
+          <li>You will, without hesitation, postpone any disruptive activities or trains of thought that arise at any time while completing it until after the time alotted.</li>
+          <li>You will make full use of all relevant knowledge and faculties you possess toward completing it.</li>
+        </ol>
+        <p>This agreement is effective for the entire period allotted with the exception of intentional breaks. </p>
+      </article>
+      <footer>
+        <input id="name" type="text" placeholder="Name"></input>
         <button id="agree">I Agree</button>
-      </div>
+      </footer>
     </div>
   </div>
   <div id="confirmation" class="screen hide">
     <div style="text-align: center;">
       <style>
         .checkmark__check {
-          stroke:white;
+          stroke: var(--text);
           transform-origin: 50% 50%;
           stroke-dasharray: 48;
           stroke-dashoffset: 48;
@@ -112,6 +181,7 @@
       </style>
       <div id="check" style="width: 2.5em; display: inline-block;"></div>
       <h1>Signed.</h1>
+      <p><span id="name-signed"></span><span style="width: 1.5rem; display: inline-block"></span><span id="date-signed"></span></p>
       <button id="back">Back</button>
     </div>
   </div>
@@ -122,11 +192,34 @@
     let check = document.getElementById("check");
     let checkStr = `<svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="10 10 30 30"><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>`;
 
+    const dateEl = document.querySelector("#date");
+    const dateSignedEl = document.querySelector("#date-signed");
+    function updateTime() {
+      // https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      const hour = String(today.getHours()).padStart(2, '0');
+      const minute = String(today.getMinutes()).padStart(2, '0');
+      const date = yyyy + '-' + mm + '-' + dd;
+      const time = hour + ":" + minute;
+      dateEl.innerText = date + ' | ' + time;
+    }
+
+    // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+    const capitalizeFirstLetter = ([ first, ...rest ], locale = navigator.language) =>
+      first === undefined ? '' : first.toLocaleUpperCase(locale) + rest.join('')
+
+    const nameEl = document.querySelector("#name");
+    const nameSignedEl = document.querySelector("#name-signed");
     document.getElementById("agree").onclick = function (evt) {
       terms.className = "screen hide";
       setTimeout(() => {
         confirmation.className = "screen";
         check.innerHTML = checkStr;
+        dateSignedEl.innerHTML = dateEl.innerHTML;
+        nameSignedEl.innerHTML = nameEl.value.split(" ").map(word => capitalizeFirstLetter(word)).join(" ");
       }, 500)
     }
     document.getElementById("back").onclick = function (evt) {
@@ -136,6 +229,8 @@
         check.innerHTML = "";
       }, 500)
     }
+
+    setInterval(updateTime, 200);
   </script>
 </body>
 </html>
